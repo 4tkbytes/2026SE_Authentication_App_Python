@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "McCarter.start-git-bash",
+    "ms-python.python",
+    "oderwat.indent-rainbow",
+    "GitHub.codespaces",
+    "ms-python.debugpy",
+    "mechatroner.rainbow-csv",
+    "ms-python.vscode-python-envs"
+  ]
+}

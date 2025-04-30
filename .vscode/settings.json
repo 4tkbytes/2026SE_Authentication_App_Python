@@ -1,0 +1,15 @@
+{
+	"files.autoSave": "onFocusChange",
+	"editor.formatOnPaste": false,
+	"editor.formatOnSave": false,
+	"editor.fontSize": 18,
+	"terminal.integrated.defaultProfile.windows": "Git Bash",
+	"window.restoreWindows": "preserve",
+	"workbench.editorAssociations": {
+		"*.md": "vscode.markdown.preview.editor"
+	},
+	"editor.defaultFormatter":  null,
+	"editor.formatOnPaste": false,
+	"editor.formatOnSave": false,
+	"editor.formatOnType": false
+}

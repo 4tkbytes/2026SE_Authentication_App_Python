@@ -1,0 +1,46 @@
+{
+  "name": "Python Development Container",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "hostRequirements": {
+    "cpus": 4
+  },
+  "waitFor": "onCreateCommand",
+  "updateContentCommand": "pip install -r requirements.txt",
+  "postCreateCommand": "",
+  "postAttachCommand": {},
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "extensions.allowed": {
+          "ms-python.python": true,
+          "McCarter.start-git-bash": true,
+          "oderwat.indent-rainbow": true,
+          "GitHub.codespaces": true,
+          "ms-python.debugpy": true,
+          "mechatroner.rainbow-csv": true,
+          "mathematic.vscode-pdf": true,
+          "*": false
+        },
+        "files.autoSave": "onFocusChange",
+        "editor.formatOnPaste": false,
+        "editor.formatOnSave": false,
+        "editor.formatOnType": false,
+        "editor.fontSize": 18,
+        "terminal.integrated.defaultProfile.windows": "Git Bash",
+        "window.restoreWindows": "preserve",
+        "workbench.editorAssociations": {
+          "*.md": "vscode.markdown.preview.editor"
+        }
+      },
+      "extensions": [
+        "McCarter.start-git-bash",
+        "ms-python.python",
+        "oderwat.indent-rainbow",
+        "GitHub.codespaces",
+        "ms-python.debugpy",
+        "mechatroner.rainbow-csv",
+        "mathematic.vscode-pdf"
+      ]
+    }
+  }
+}
