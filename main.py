@@ -2,26 +2,19 @@ import sys
 import getpass
 import bcrypt
 
-database = "my_work/pass.csv"
-salt = b"$2b$12$ieYNkQp8QumgedUo30nuPO"
+database = "pass.csv"
 
 def quit():
     print("Goodbye, see you later :)")
     sys.exit(0)
 
-# def encrypt(dPassword:str):
-#     mypassword = dPassword.encode('utf-8')
+def encrypt(password: str):
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
-#     hashed_password = bcrypt.hashpw(password=mypassword, salt=salt)
-#     print(f"True password: {mypassword}")
-#     print(f"Hashed password: {hashed_password}")
-#     return hashed_password
-
-# def decrypt(ePassword:str):
-
+def compare(input_password:str, hashed_password) -> bool:
+    return bcrypt.checkpw(input_password, hashed_password)
 
 def write(username:str, password:str):
-    password
     # check if user already exists
     with open(database, 'r') as file:
         for line in file:
@@ -31,8 +24,8 @@ def write(username:str, password:str):
     
     # append item to file
     with open(database, "a") as file:
-        # file.write(f"{username},{encrypt(password)}\n")
-        file.write(f"{username},{password}\n")
+        file.write(f"{username},{encrypt(password)}\n")
+        # file.write(f"{username},{password}\n")
     return ""
 
 def search_file_k(file_path:str, keyword:str):
@@ -122,15 +115,16 @@ def login():
     
     search = search_file_k(database, username)
     try:
-        # if bcrypt.checkpw(password, search):
-        #     print("Authenticated successfully!")
+        if compare(password.encode(), search):
+            print("Authenticated successfully!")
         if password in search:
             print("Authenticated successfully!")
         else:
             print("Password is not correct, returning back to main menu")
             return "Incorrect Password!"
-    except Exception:
+    except Exception as e:
         print("Username not found in database, returning back to main menu")
+        print(e)
         return "Username not found in login"
     post_auth_menu()
     return ""
