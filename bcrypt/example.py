@@ -19,5 +19,5 @@ print(f"Actual Password: {my_password.decode('utf-8')}")
 # Print Hashed Password
 print(f"Hashed Password: {hashed_password.decode('utf-8')}")
 
-# Check if a plain text password matches a hashed password. It returns a Boolean value.
+# Check if a plain text password                                           matches a hashed password. It returns a Boolean value.
 print(bcrypt.checkpw(my_password, hashed_password))

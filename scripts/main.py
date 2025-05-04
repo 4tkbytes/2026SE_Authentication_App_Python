@@ -12,7 +12,17 @@ def encrypt(password: str):
     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
 def compare(input_password:str, hashed_password) -> bool:
-    return bcrypt.checkpw(input_password, hashed_password)
+    if isinstance(hashed_password, list) and len(hashed_password) > 1:
+        # Extract the hashed password from the list (should be the second element)
+        hashed_str = hashed_password[1]
+        # Convert both to bytes for comparing
+        return bcrypt.checkpw(input_password.encode('utf-8'), hashed_str.encode('utf-8'))
+    elif isinstance(hashed_password, str):
+        # If it's already a string, encode both
+        return bcrypt.checkpw(input_password.encode('utf-8'), hashed_password.encode('utf-8'))
+    else:
+        # If it's already bytes, use as-is for the hashed password
+        return bcrypt.checkpw(input_password.encode('utf-8'), hashed_password)
 
 def write(username:str, password:str):
     # check if user already exists
@@ -60,13 +70,24 @@ def change_item_in_file_k(file_path:str, keyword:str, new_item:str):
     return ""
 
 def change_password():
+    username = input("Input your username: ")
     old_password = getpass.getpass("Input your old password for verification (no echo): ")
+    
+    user_record = search_file_k(database, username)
+    
+    if user_record is None:
+        print("Username not found, returning back to main menu...")
+        return "Username not found"
+    
     try:
-        if old_password == search_file_k(database, old_password)[1]:
+        if compare(old_password, user_record):
             print("Password verified!")
-    except Exception:
-        print("Old password is wrong, returning back to main menu...")
-        return "Old password is not correct"
+        else:
+            print("Old password is wrong, returning back to main menu...")
+            return "Old password is not correct"
+    except Exception as e:
+        print(f"Error verifying password: {e}")
+        return "Password verification error"
 
     while True:
         tmp = getpass.getpass("Input your new password (no echo): ")
@@ -75,11 +96,11 @@ def change_password():
             continue
         new_password = getpass.getpass("Confirm your new password (no echo): ")
         if new_password == tmp:
-            return change_item_in_file_k(database, old_password, new_password)
+            encrypted_password = encrypt(new_password)
+            return change_item_in_file_k(database, username, encrypted_password)
         else:
             print("Password is not the same, try again...")
             continue
-
 
 def post_auth_menu():
     while True:
@@ -113,21 +134,26 @@ def login():
     username = input("Input your username: ")
     password = getpass.getpass("Input your password (No echo): ")
     
+    # Try to find the user in the database
     search = search_file_k(database, username)
+    
+    # Check if user was found
+    if search is None:
+        print("Username not found in database, returning back to main menu")
+        return "Username not found in login"
+    
+    # Check if password matches using our compare function
     try:
-        if compare(password.encode(), search):
+        if compare(password, search):
             print("Authenticated successfully!")
-        if password in search:
-            print("Authenticated successfully!")
+            post_auth_menu()
+            return ""
         else:
             print("Password is not correct, returning back to main menu")
             return "Incorrect Password!"
     except Exception as e:
-        print("Username not found in database, returning back to main menu")
-        print(e)
-        return "Username not found in login"
-    post_auth_menu()
-    return ""
+        print(f"Authentication error: {e}")
+        return f"Auth error"
 
 def register():
     # check if file exists, if not create a new one
@@ -167,7 +193,7 @@ def check_user_count():
     try:
         line_count = 0
         with open(database) as file:
-            for line in file:
+            for _ in file:
                 line_count+=1
         return line_count
     except:

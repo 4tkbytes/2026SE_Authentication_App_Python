@@ -16,15 +16,15 @@ Change password – A logged-in user can change their password which is updated 
 
 ### IPO Table
 
-<img src="IPO.png" />
+<img src="media/IPO.png" />
 
 ### Structure chart
 
-<img src="Structure_Chart.png" />
+<img src="media/Structure_Chart.png" />
 
 ### Flow chart
 
-<img src="Flow_Chart.png" />
+<img src="media/Flow_Chart.png" />
 
 ## Getting Started
 

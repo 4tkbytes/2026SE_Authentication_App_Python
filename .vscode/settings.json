@@ -11,5 +11,14 @@
 	"editor.defaultFormatter":  null,
 	"editor.formatOnPaste": false,
 	"editor.formatOnSave": false,
-	"editor.formatOnType": false
+	"editor.formatOnType": false,
+	"python.testing.unittestArgs": [
+		"-v",
+		"-s",
+		".",
+		"-p",
+		"*test.py"
+	],
+	"python.testing.pytestEnabled": false,
+	"python.testing.unittestEnabled": true
 }
